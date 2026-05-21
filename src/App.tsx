@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import { Toast } from './components/ui/Toast';
 import { Today } from './screens/Today';
@@ -11,10 +11,15 @@ import { Strategy } from './screens/Strategy';
 import { Results } from './screens/Results';
 import { Desktop } from './screens/Desktop';
 
+function RootRedirect() {
+  const isDesktop = window.innerWidth >= 1024;
+  return <Navigate to={isDesktop ? '/desktop' : '/today'} replace />;
+}
+
 function DevNav() {
   const { pathname } = useLocation();
   const screens = [
-    { path: '/',         label: '01 Today' },
+    { path: '/today',    label: '01 Today' },
     { path: '/push',     label: '02 Push' },
     { path: '/capture',  label: '03 Brief' },
     { path: '/shoot',    label: '04 Shoot' },
@@ -36,7 +41,7 @@ function DevNav() {
       zIndex: 9000, boxShadow: '0 -2px 12px rgba(0,0,0,0.3)',
     }}>
       {screens.map((s) => {
-        const active = s.path === '/' ? pathname === '/' : pathname.startsWith(s.path);
+        const active = pathname.startsWith(s.path);
         return (
           <Link key={s.path} to={s.path} style={{
             fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 600,
@@ -61,7 +66,8 @@ function AppRoutes() {
       <DevNav />
       <Toast />
       <Routes>
-        <Route path="/"         element={<Today />} />
+        <Route path="/"         element={<RootRedirect />} />
+        <Route path="/today"    element={<Today />} />
         <Route path="/push"     element={<PushNotification />} />
         <Route path="/capture"  element={<CaptureBrief />} />
         <Route path="/shoot"    element={<Shoot />} />
