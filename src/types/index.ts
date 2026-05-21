@@ -95,6 +95,25 @@ export interface ConnectedChannel {
   lastSyncedAt: string;
 }
 
+export type PhotoStatus = 'submitted' | 'in-review' | 'approved' | 'in-use' | 'archived';
+
+export interface CapturedPhoto {
+  id: string;
+  jobId: string;
+  briefId: string;
+  shotLabel: string;
+  capturedAt: string;
+  capturedBy: 'you' | 'crew';
+  status: PhotoStatus;
+  usedInPostId?: string;
+  reviewedBy?: string;
+  notes?: string;
+  ratio: number;
+  colorHint: string;
+}
+
+export type DesktopView = 'today' | 'captures' | 'plan' | 'strategy';
+
 export const OWNERS = {
   you:    { kind: 'you'    as OwnerKind, label: 'You',          initials: 'MR', color: 'var(--ink)' },
   atomic: { kind: 'atomic' as OwnerKind, label: 'Atomic',       initials: null, color: 'var(--accent)' },

@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react';
 import { OWNERS } from '../../types';
 import type { OwnerKind } from '../../types';
 import { AtomicMark } from './AtomicMark';
@@ -13,6 +14,7 @@ interface OwnerChipProps {
   role?: string;
   size?: ChipSize;
   tone?: ChipTone;
+  style?: CSSProperties;
 }
 
 const sizeMap = {
@@ -21,7 +23,7 @@ const sizeMap = {
   lg: { disc: 32, font: 14, pad: '6px 14px 6px 7px', gap: 8 },
 };
 
-export function OwnerChip({ owner, label, role: roleProp, size = 'sm', tone = 'default' }: OwnerChipProps) {
+export function OwnerChip({ owner, label, role: roleProp, size = 'sm', tone = 'default', style: styleProp }: OwnerChipProps) {
   const ownerData = OWNERS[owner];
   const displayLabel = label ?? (roleProp ? `${ownerData.label} · ${roleProp}` : ownerData.label);
   const s = sizeMap[size];
@@ -66,6 +68,7 @@ export function OwnerChip({ owner, label, role: roleProp, size = 'sm', tone = 'd
         fontWeight: 500,
         color: textColor,
         lineHeight: 1,
+        ...styleProp,
       }}
     >
       {isAtomicType ? (
