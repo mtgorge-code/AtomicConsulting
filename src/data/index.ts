@@ -1,11 +1,52 @@
-import type { User, TeamMember, Job, CaptureBrief, Post, Strategy, ConnectedChannel, CapturedPhoto, Integration, PostPerformance } from '../types';
+import type { User, TeamMember, Job, CaptureBrief, Post, Strategy, ConnectedChannel, CapturedPhoto, Integration, PostPerformance, BillingInfo, UsageStats } from '../types';
 
 export const user: User = {
   id: 'u1',
   firstName: 'Mike',
+  lastName: 'Reyes',
   initials: 'MR',
   avatarColor: 'var(--ink)',
   businessName: 'Cardinal Landscape Co.',
+  email: 'mike@cardinallandscapeco.com',
+  phone: '(555) 812-4490',
+  website: 'cardinallandscapeco.com',
+  address: '142 Sycamore Dr',
+  city: 'Westhaven',
+  state: 'CA',
+  zip: '93012',
+  industry: 'Landscaping & Hardscape',
+  serviceArea: 'Westhaven, Riverside Heights, Maple Ridge',
+};
+
+export const billingInfo: BillingInfo = {
+  plan: 'growth',
+  billingCycle: 'annual',
+  amountCents: 29700,
+  nextBillingDate: '2026-06-01',
+  cardBrand: 'Visa',
+  cardLast4: '4242',
+  invoices: [
+    { id: 'inv1', date: '2026-05-01', amountCents: 29700, status: 'paid',    description: 'Growth Plan · May 2026' },
+    { id: 'inv2', date: '2026-04-01', amountCents: 29700, status: 'paid',    description: 'Growth Plan · Apr 2026' },
+    { id: 'inv3', date: '2026-03-01', amountCents: 29700, status: 'paid',    description: 'Growth Plan · Mar 2026' },
+    { id: 'inv4', date: '2026-02-01', amountCents: 29700, status: 'paid',    description: 'Growth Plan · Feb 2026' },
+    { id: 'inv5', date: '2026-01-01', amountCents: 29700, status: 'paid',    description: 'Growth Plan · Jan 2026' },
+  ],
+};
+
+export const usageStats: UsageStats = {
+  postsPublishedThisMonth: 11,
+  postsPublishedAllTime: 47,
+  postsMonthlyLimit: 30,
+  photosCount: 20,
+  photosStorageUsedMb: 1240,
+  photosStorageLimitMb: 5000,
+  channelsConnected: 4,
+  channelsLimit: 8,
+  teamSeats: 3,
+  teamSeatsLimit: 5,
+  clientSince: '2025-12-15',
+  lastActiveAt: '2026-05-21T10:58:00',
 };
 
 export const team: TeamMember[] = [

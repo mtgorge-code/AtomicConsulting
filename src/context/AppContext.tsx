@@ -1,7 +1,7 @@
 import { createContext, useContext, useReducer } from 'react';
 import type { ReactNode, Dispatch } from 'react';
-import type { Post, CapturedPhoto, CaptureBrief, Integration } from '../types';
-import { posts as seedPosts, capturedPhotos as seedPhotos, captureBriefs as seedBriefs, integrations as seedIntegrations } from '../data';
+import type { Post, CapturedPhoto, CaptureBrief, Integration, User } from '../types';
+import { posts as seedPosts, capturedPhotos as seedPhotos, captureBriefs as seedBriefs, integrations as seedIntegrations, user as seedUser } from '../data';
 
 // ── State shape ────────────────────────────────────────────────────
 interface AppState {
@@ -11,6 +11,7 @@ interface AppState {
   bRollChecked: Record<string, boolean>;
   toast: { message: string; id: number } | null;
   integrations: Integration[];
+  profile: User;
 }
 
 // ── Actions ────────────────────────────────────────────────────────
@@ -26,7 +27,8 @@ type Action =
   | { type: 'SHOW_TOAST';            message: string }
   | { type: 'CLEAR_TOAST' }
   | { type: 'CONNECT_INTEGRATION';    integrationId: string }
-  | { type: 'DISCONNECT_INTEGRATION'; integrationId: string };
+  | { type: 'DISCONNECT_INTEGRATION'; integrationId: string }
+  | { type: 'UPDATE_PROFILE';         profile: Partial<User> };
 
 let toastSeq = 0;
 
@@ -142,6 +144,13 @@ function reducer(state: AppState, action: Action): AppState {
         toast: { message: 'Disconnected.', id: ++toastSeq },
       };
 
+    case 'UPDATE_PROFILE':
+      return {
+        ...state,
+        profile: { ...state.profile, ...action.profile },
+        toast: { message: 'Profile saved.', id: ++toastSeq },
+      };
+
     default:
       return state;
   }
@@ -160,6 +169,7 @@ interface AppContextValue {
   toggleBRoll:           (label: string) => void;
   connectIntegration:    (id: string) => void;
   disconnectIntegration: (id: string) => void;
+  updateProfile:         (profile: Partial<User>) => void;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -178,6 +188,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     bRollChecked:  seedBRoll,
     toast:         null,
     integrations:  seedIntegrations,
+    profile:       seedUser,
   });
 
   const value: AppContextValue = {
@@ -192,6 +203,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     toggleBRoll:           (label)  => dispatch({ type: 'TOGGLE_BROLL',          label }),
     connectIntegration:    (id)     => dispatch({ type: 'CONNECT_INTEGRATION',    integrationId: id }),
     disconnectIntegration: (id)     => dispatch({ type: 'DISCONNECT_INTEGRATION', integrationId: id }),
+    updateProfile:         (p)      => dispatch({ type: 'UPDATE_PROFILE',         profile: p }),
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

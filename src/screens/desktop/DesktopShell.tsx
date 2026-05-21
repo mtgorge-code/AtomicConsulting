@@ -3,7 +3,7 @@ import { AtomicWordmark } from '../../components/ui/AtomicMark';
 import { AtomicMark } from '../../components/ui/AtomicMark';
 import { Avatar } from '../../components/ui/Avatar';
 import { Icons } from '../../components/icons';
-import { connectedChannels, team, user } from '../../data';
+import { connectedChannels, team } from '../../data';
 import type { DesktopView } from '../../types';
 import { DesktopToday } from './DesktopToday';
 import { DesktopCaptures } from './DesktopCaptures';
@@ -11,6 +11,8 @@ import { DesktopPlan } from './DesktopPlan';
 import { DesktopStrategy } from './DesktopStrategy';
 import { DesktopResults } from './DesktopResults';
 import { DesktopIntegrations } from './DesktopIntegrations';
+import { DesktopClientProfile } from './DesktopClientProfile';
+import { useApp } from '../../context/AppContext';
 
 interface NavItem {
   id: DesktopView;
@@ -37,6 +39,8 @@ const channelDots: Record<string, string> = {
 
 export function DesktopShell() {
   const [view, setView] = useState<DesktopView>('today');
+  const { state } = useApp();
+  const profile = state.profile;
 
   return (
     <div style={{
@@ -66,24 +70,34 @@ export function DesktopShell() {
           <AtomicWordmark size="md" />
         </div>
 
-        {/* User identity */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 10,
-          padding: '10px 18px 16px',
-          borderBottom: '1px solid var(--hairline)',
-        }}>
-          <Avatar initials={user.initials} color={user.avatarColor} size={32} />
-          <div>
-            <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink)', lineHeight: 1.2 }}>
-              {user.firstName} Reyes
+        {/* User identity — click to open profile */}
+        <button
+          onClick={() => setView('profile')}
+          aria-label="Open client profile"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            padding: '10px 18px 16px',
+            borderBottom: '1px solid var(--hairline)',
+            width: '100%',
+            textAlign: 'left',
+            background: view === 'profile' ? 'var(--paper2)' : 'transparent',
+            transition: 'background 0.1s',
+            cursor: 'pointer',
+          }}
+        >
+          <Avatar initials={profile.initials} color={profile.avatarColor} size={32} />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink)', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {profile.firstName} {profile.lastName}
             </p>
-            <p style={{ fontSize: 11.5, color: 'var(--ink4)', lineHeight: 1.3 }}>
-              {user.businessName}
+            <p style={{ fontSize: 11.5, color: 'var(--ink4)', lineHeight: 1.3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {profile.businessName}
             </p>
           </div>
-        </div>
+          <Icons.ChevronRight s={13} c="var(--ink5)" />
+        </button>
 
         {/* Nav */}
         <nav aria-label="Workspace navigation" style={{ padding: '10px 0' }}>
@@ -217,6 +231,7 @@ export function DesktopShell() {
         {view === 'strategy'     && <DesktopStrategy />}
         {view === 'results'      && <DesktopResults />}
         {view === 'integrations' && <DesktopIntegrations />}
+        {view === 'profile'      && <DesktopClientProfile onNavigate={setView} />}
       </div>
     </div>
   );

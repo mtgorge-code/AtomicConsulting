@@ -20,9 +20,54 @@ export type PostState =
 export interface User {
   id: string;
   firstName: string;
+  lastName: string;
   initials: string;
   avatarColor: string;
   businessName: string;
+  email: string;
+  phone: string;
+  website: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  industry: string;
+  serviceArea: string;
+}
+
+export type BillingPlan = 'starter' | 'growth' | 'pro';
+
+export interface BillingInvoice {
+  id: string;
+  date: string;
+  amountCents: number;
+  status: 'paid' | 'pending' | 'failed';
+  description: string;
+}
+
+export interface BillingInfo {
+  plan: BillingPlan;
+  billingCycle: 'monthly' | 'annual';
+  amountCents: number;
+  nextBillingDate: string;
+  cardBrand: string;
+  cardLast4: string;
+  invoices: BillingInvoice[];
+}
+
+export interface UsageStats {
+  postsPublishedThisMonth: number;
+  postsPublishedAllTime: number;
+  postsMonthlyLimit: number;
+  photosCount: number;
+  photosStorageUsedMb: number;
+  photosStorageLimitMb: number;
+  channelsConnected: number;
+  channelsLimit: number;
+  teamSeats: number;
+  teamSeatsLimit: number;
+  clientSince: string;
+  lastActiveAt: string;
 }
 
 export interface TeamMember {
@@ -112,7 +157,7 @@ export interface CapturedPhoto {
   colorHint: string;
 }
 
-export type DesktopView = 'today' | 'captures' | 'plan' | 'strategy' | 'results' | 'integrations';
+export type DesktopView = 'today' | 'captures' | 'plan' | 'strategy' | 'results' | 'integrations' | 'profile';
 
 export type IntegrationCategory = 'analytics' | 'social' | 'crm' | 'calls' | 'booking' | 'payments';
 export type IntegrationStatus = 'connected' | 'disconnected' | 'error' | 'pending';
