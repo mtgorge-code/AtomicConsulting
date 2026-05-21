@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import { Toast } from './components/ui/Toast';
 import { Today } from './screens/Today';
@@ -11,26 +11,21 @@ import { Strategy } from './screens/Strategy';
 import { Results } from './screens/Results';
 import { Desktop } from './screens/Desktop';
 
-function RootRedirect() {
-  const isDesktop = window.innerWidth >= 1024;
-  return <Navigate to={isDesktop ? '/desktop' : '/today'} replace />;
-}
-
 function DevNav() {
   const { pathname } = useLocation();
   const screens = [
-    { path: '/today',    label: '01 Today' },
-    { path: '/push',     label: '02 Push' },
-    { path: '/capture',  label: '03 Brief' },
-    { path: '/shoot',    label: '04 Shoot' },
-    { path: '/handoff',  label: '05 Handoff' },
-    { path: '/plan',     label: '06 Plan' },
-    { path: '/strategy', label: '07 Strategy' },
-    { path: '/results',  label: '08 Results' },
-    { path: '/desktop',  label: '09 Desktop' },
+    { path: '/today',    label: 'Today' },
+    { path: '/push',     label: 'Push' },
+    { path: '/capture',  label: 'Brief' },
+    { path: '/shoot',    label: 'Shoot' },
+    { path: '/handoff',  label: 'Handoff' },
+    { path: '/plan',     label: 'Plan' },
+    { path: '/strategy', label: 'Strategy' },
+    { path: '/results',  label: 'Results' },
+    { path: '/desktop',  label: 'Desktop' },
   ];
 
-  if (pathname === '/desktop') return null;
+  if (pathname === '/' || pathname === '/desktop') return null;
 
   return (
     <nav aria-label="Screen switcher" style={{
@@ -66,7 +61,8 @@ function AppRoutes() {
       <DevNav />
       <Toast />
       <Routes>
-        <Route path="/"         element={<RootRedirect />} />
+        <Route path="/"         element={<Desktop />} />
+        <Route path="/desktop"  element={<Desktop />} />
         <Route path="/today"    element={<Today />} />
         <Route path="/push"     element={<PushNotification />} />
         <Route path="/capture"  element={<CaptureBrief />} />
@@ -75,7 +71,6 @@ function AppRoutes() {
         <Route path="/plan"     element={<Plan />} />
         <Route path="/strategy" element={<Strategy />} />
         <Route path="/results"  element={<Results />} />
-        <Route path="/desktop"  element={<Desktop />} />
       </Routes>
     </>
   );
