@@ -8,6 +8,7 @@ import { Shoot } from './screens/Shoot';
 import { Handoff } from './screens/Handoff';
 import { Plan } from './screens/Plan';
 import { Strategy } from './screens/Strategy';
+import { Results } from './screens/Results';
 import { Desktop } from './screens/Desktop';
 
 function DevNav() {
@@ -20,7 +21,8 @@ function DevNav() {
     { path: '/handoff',  label: '05 Handoff' },
     { path: '/plan',     label: '06 Plan' },
     { path: '/strategy', label: '07 Strategy' },
-    { path: '/desktop',  label: '08 Desktop' },
+    { path: '/results',  label: '08 Results' },
+    { path: '/desktop',  label: '09 Desktop' },
   ];
 
   if (pathname === '/desktop') return null;
@@ -66,6 +68,7 @@ function AppRoutes() {
         <Route path="/handoff"  element={<Handoff />} />
         <Route path="/plan"     element={<Plan />} />
         <Route path="/strategy" element={<Strategy />} />
+        <Route path="/results"  element={<Results />} />
         <Route path="/desktop"  element={<Desktop />} />
       </Routes>
     </>

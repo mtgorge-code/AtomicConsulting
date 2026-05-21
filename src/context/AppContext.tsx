@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer, ReactNode } from 'react';
-import type { Post, CapturedPhoto, CaptureBrief } from '../types';
-import { posts as seedPosts, capturedPhotos as seedPhotos, captureBriefs as seedBriefs } from '../data';
+import type { Post, CapturedPhoto, CaptureBrief, Integration } from '../types';
+import { posts as seedPosts, capturedPhotos as seedPhotos, captureBriefs as seedBriefs, integrations as seedIntegrations } from '../data';
 
 // ── State shape ────────────────────────────────────────────────────
 interface AppState {
@@ -9,20 +9,23 @@ interface AppState {
   briefs: CaptureBrief[];
   bRollChecked: Record<string, boolean>;
   toast: { message: string; id: number } | null;
+  integrations: Integration[];
 }
 
 // ── Actions ────────────────────────────────────────────────────────
 type Action =
-  | { type: 'APPROVE_POST';      postId: string }
-  | { type: 'REJECT_POST';       postId: string }
-  | { type: 'HANDOFF_CAPTURE';   briefId: string }
-  | { type: 'SUBMIT_PHOTOS';     photos: CapturedPhoto[] }
-  | { type: 'APPROVE_PHOTO';     photoId: string }
-  | { type: 'ARCHIVE_PHOTO';     photoId: string }
-  | { type: 'USE_PHOTO_IN_POST'; photoId: string; postId: string }
-  | { type: 'TOGGLE_BROLL';      label: string }
-  | { type: 'SHOW_TOAST';        message: string }
-  | { type: 'CLEAR_TOAST' };
+  | { type: 'APPROVE_POST';          postId: string }
+  | { type: 'REJECT_POST';           postId: string }
+  | { type: 'HANDOFF_CAPTURE';       briefId: string }
+  | { type: 'SUBMIT_PHOTOS';         photos: CapturedPhoto[] }
+  | { type: 'APPROVE_PHOTO';         photoId: string }
+  | { type: 'ARCHIVE_PHOTO';         photoId: string }
+  | { type: 'USE_PHOTO_IN_POST';     photoId: string; postId: string }
+  | { type: 'TOGGLE_BROLL';          label: string }
+  | { type: 'SHOW_TOAST';            message: string }
+  | { type: 'CLEAR_TOAST' }
+  | { type: 'CONNECT_INTEGRATION';    integrationId: string }
+  | { type: 'DISCONNECT_INTEGRATION'; integrationId: string };
 
 let toastSeq = 0;
 
@@ -116,6 +119,28 @@ function reducer(state: AppState, action: Action): AppState {
     case 'CLEAR_TOAST':
       return { ...state, toast: null };
 
+    case 'CONNECT_INTEGRATION':
+      return {
+        ...state,
+        integrations: state.integrations.map(i =>
+          i.id === action.integrationId
+            ? { ...i, status: 'connected' as const, lastSyncedAt: new Date().toISOString() }
+            : i
+        ),
+        toast: { message: "Connected! We're pulling your data now.", id: ++toastSeq },
+      };
+
+    case 'DISCONNECT_INTEGRATION':
+      return {
+        ...state,
+        integrations: state.integrations.map(i =>
+          i.id === action.integrationId
+            ? { ...i, status: 'disconnected' as const, accountName: undefined, lastSyncedAt: undefined }
+            : i
+        ),
+        toast: { message: 'Disconnected.', id: ++toastSeq },
+      };
+
     default:
       return state;
   }
@@ -125,13 +150,15 @@ function reducer(state: AppState, action: Action): AppState {
 interface AppContextValue {
   state: AppState;
   dispatch: React.Dispatch<Action>;
-  approvePost:    (postId: string) => void;
-  rejectPost:     (postId: string) => void;
-  handoffCapture: (briefId: string) => void;
-  submitPhotos:   (photos: CapturedPhoto[]) => void;
-  approvePhoto:   (photoId: string) => void;
-  archivePhoto:   (photoId: string) => void;
-  toggleBRoll:    (label: string) => void;
+  approvePost:           (postId: string) => void;
+  rejectPost:            (postId: string) => void;
+  handoffCapture:        (briefId: string) => void;
+  submitPhotos:          (photos: CapturedPhoto[]) => void;
+  approvePhoto:          (photoId: string) => void;
+  archivePhoto:          (photoId: string) => void;
+  toggleBRoll:           (label: string) => void;
+  connectIntegration:    (id: string) => void;
+  disconnectIntegration: (id: string) => void;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -149,18 +176,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
     briefs:        seedBriefs,
     bRollChecked:  seedBRoll,
     toast:         null,
+    integrations:  seedIntegrations,
   });
 
   const value: AppContextValue = {
     state,
     dispatch,
-    approvePost:    (id)     => dispatch({ type: 'APPROVE_POST',    postId: id }),
-    rejectPost:     (id)     => dispatch({ type: 'REJECT_POST',     postId: id }),
-    handoffCapture: (id)     => dispatch({ type: 'HANDOFF_CAPTURE', briefId: id }),
-    submitPhotos:   (photos) => dispatch({ type: 'SUBMIT_PHOTOS',   photos }),
-    approvePhoto:   (id)     => dispatch({ type: 'APPROVE_PHOTO',   photoId: id }),
-    archivePhoto:   (id)     => dispatch({ type: 'ARCHIVE_PHOTO',   photoId: id }),
-    toggleBRoll:    (label)  => dispatch({ type: 'TOGGLE_BROLL',    label }),
+    approvePost:           (id)     => dispatch({ type: 'APPROVE_POST',          postId: id }),
+    rejectPost:            (id)     => dispatch({ type: 'REJECT_POST',           postId: id }),
+    handoffCapture:        (id)     => dispatch({ type: 'HANDOFF_CAPTURE',       briefId: id }),
+    submitPhotos:          (photos) => dispatch({ type: 'SUBMIT_PHOTOS',         photos }),
+    approvePhoto:          (id)     => dispatch({ type: 'APPROVE_PHOTO',         photoId: id }),
+    archivePhoto:          (id)     => dispatch({ type: 'ARCHIVE_PHOTO',         photoId: id }),
+    toggleBRoll:           (label)  => dispatch({ type: 'TOGGLE_BROLL',          label }),
+    connectIntegration:    (id)     => dispatch({ type: 'CONNECT_INTEGRATION',    integrationId: id }),
+    disconnectIntegration: (id)     => dispatch({ type: 'DISCONNECT_INTEGRATION', integrationId: id }),
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

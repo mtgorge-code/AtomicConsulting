@@ -1,4 +1,4 @@
-import type { User, TeamMember, Job, CaptureBrief, Post, Strategy, ConnectedChannel, CapturedPhoto } from '../types';
+import type { User, TeamMember, Job, CaptureBrief, Post, Strategy, ConnectedChannel, CapturedPhoto, Integration, PostPerformance } from '../types';
 
 export const user: User = {
   id: 'u1',
@@ -177,4 +177,28 @@ export const capturedPhotos: CapturedPhoto[] = [
   // Submitted today, not yet reviewed
   { id: 'ph19', jobId: 'j1', briefId: 'cb1', shotLabel: 'Wide — full wall 2',     capturedAt: '2026-05-21T11:06:00', capturedBy: 'you',  status: 'submitted', ratio: 4/3,  colorHint: 'oklch(0.54 0.04 138)' },
   { id: 'ph20', jobId: 'j1', briefId: 'cb1', shotLabel: 'Alternate angle',        capturedAt: '2026-05-21T11:07:30', capturedBy: 'you',  status: 'submitted', ratio: 4/3,  colorHint: 'oklch(0.50 0.035 135)' },
+];
+
+export const integrations: Integration[] = [
+  // Connected
+  { id: 'ga4',         name: 'Google Analytics 4',    description: 'Website traffic, conversions, and goal completions',                    category: 'analytics', status: 'connected',    accountName: 'cardinallandscapeco.com',  lastSyncedAt: '2026-05-21T06:00:00', logoColor: '#e37400', logoText: 'GA4' },
+  { id: 'gbp',         name: 'Google Business Profile',description: 'Calls, direction requests, and profile views',                          category: 'analytics', status: 'connected',    accountName: 'Cardinal Landscape Co.',   lastSyncedAt: '2026-05-21T06:00:00', logoColor: '#34a853', logoText: 'GBP' },
+  { id: 'meta',        name: 'Meta Business Suite',    description: 'Facebook and Instagram insights and lead forms',                         category: 'social',    status: 'connected',    accountName: '@cardinallandscape',       lastSyncedAt: '2026-05-21T05:30:00', logoColor: '#0866ff', logoText: 'META' },
+  { id: 'callrail',    name: 'CallRail',               description: 'Call tracking — which content and channels drive calls',                 category: 'calls',     status: 'connected',    accountName: 'Cardinal Landscape Co.',   lastSyncedAt: '2026-05-21T06:00:00', logoColor: '#45c152', logoText: 'CR' },
+  { id: 'linkedin',    name: 'LinkedIn Pages',         description: 'LinkedIn organic post analytics',                                        category: 'social',    status: 'connected',    accountName: 'Cardinal Landscape Co.',   lastSyncedAt: '2026-05-21T05:00:00', logoColor: '#0077b5', logoText: 'LI' },
+  { id: 'website',     name: 'Website Forms',          description: 'Contact and quote request form submissions',                             category: 'analytics', status: 'connected',    accountName: 'cardinallandscapeco.com',  lastSyncedAt: '2026-05-21T06:00:00', logoColor: '#6366f1', logoText: 'WEB' },
+  // Available but not connected
+  { id: 'jobber',      name: 'Jobber',                 description: 'Jobs, quotes, and revenue from your field service software',             category: 'crm',       status: 'disconnected', logoColor: '#f89a1c', logoText: 'JBR' },
+  { id: 'hcp',         name: 'HouseCall Pro',          description: 'Job bookings and customer data from your dispatch system',               category: 'booking',   status: 'disconnected', logoColor: '#0070f3', logoText: 'HCP' },
+  { id: 'servicetitan',name: 'ServiceTitan',           description: 'Full business data — jobs, revenue, and customer history',               category: 'crm',       status: 'disconnected', logoColor: '#e53935', logoText: 'ST' },
+  { id: 'ghl',         name: 'GoHighLevel',            description: 'CRM, pipeline, and marketing automation',                                category: 'crm',       status: 'disconnected', logoColor: '#2563eb', logoText: 'GHL' },
+  { id: 'stripe',      name: 'Stripe',                 description: 'Payment data — confirmed jobs and revenue',                              category: 'payments',  status: 'disconnected', logoColor: '#635bff', logoText: 'STR' },
+  { id: 'square',      name: 'Square',                 description: 'Payments and invoicing',                                                 category: 'payments',  status: 'disconnected', logoColor: '#006aff', logoText: 'SQ' },
+];
+
+export const postPerformance: PostPerformance[] = [
+  { postId: 'p1', period: 'this-month', reach: 4820, profileVisits: 312, websiteClicks: 87, callsAttributed: 6, formSubmissions: 3, bookingsAttributed: 2, revenueAttributed: 5200 },
+  { postId: 'p3', period: 'this-month', reach: 2140, profileVisits: 156, websiteClicks: 42, callsAttributed: 3, formSubmissions: 2, bookingsAttributed: 1, revenueAttributed: 2800 },
+  { postId: 'p6', period: 'this-month', reach: 1860, profileVisits: 98,  websiteClicks: 31, callsAttributed: 2, formSubmissions: 1, bookingsAttributed: 1, revenueAttributed: 1800 },
+  { postId: 'p7', period: 'this-month', reach: 980,  profileVisits: 67,  websiteClicks: 18, callsAttributed: 1, formSubmissions: 0, bookingsAttributed: 0, revenueAttributed: 0 },
 ];

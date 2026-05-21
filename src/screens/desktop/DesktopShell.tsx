@@ -9,6 +9,8 @@ import { DesktopToday } from './DesktopToday';
 import { DesktopCaptures } from './DesktopCaptures';
 import { DesktopPlan } from './DesktopPlan';
 import { DesktopStrategy } from './DesktopStrategy';
+import { DesktopResults } from './DesktopResults';
+import { DesktopIntegrations } from './DesktopIntegrations';
 
 interface NavItem {
   id: DesktopView;
@@ -18,10 +20,12 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { id: 'today',    label: 'Today',    icon: Icons.Home,     count: 2 },
-  { id: 'captures', label: 'Captures', icon: Icons.Camera,   count: 3 },
-  { id: 'plan',     label: 'Plan',     icon: Icons.Calendar  },
-  { id: 'strategy', label: 'Strategy', icon: Icons.Compass   },
+  { id: 'today',        label: 'Today',        icon: Icons.Home,     count: 2 },
+  { id: 'captures',     label: 'Captures',     icon: Icons.Camera,   count: 3 },
+  { id: 'plan',         label: 'Plan',         icon: Icons.Calendar  },
+  { id: 'strategy',     label: 'Strategy',     icon: Icons.Compass   },
+  { id: 'results',      label: 'Results',      icon: Icons.BarChart  },
+  { id: 'integrations', label: 'Integrations', icon: Icons.Plug      },
 ];
 
 const channelDots: Record<string, string> = {
@@ -207,10 +211,12 @@ export function DesktopShell() {
 
       {/* ── Main ── */}
       <div id="main-content" style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
-        {view === 'today'    && <DesktopToday    onNavigate={setView} />}
-        {view === 'captures' && <DesktopCaptures />}
-        {view === 'plan'     && <DesktopPlan />}
-        {view === 'strategy' && <DesktopStrategy />}
+        {view === 'today'        && <DesktopToday        onNavigate={setView} />}
+        {view === 'captures'     && <DesktopCaptures />}
+        {view === 'plan'         && <DesktopPlan />}
+        {view === 'strategy'     && <DesktopStrategy />}
+        {view === 'results'      && <DesktopResults />}
+        {view === 'integrations' && <DesktopIntegrations />}
       </div>
     </div>
   );

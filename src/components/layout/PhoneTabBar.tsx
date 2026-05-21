@@ -13,6 +13,7 @@ const tabs: Tab[] = [
   { label: 'Capture',  path: '/capture',   icon: Icons.Camera },
   { label: 'Plan',     path: '/plan',      icon: Icons.Calendar },
   { label: 'Strategy', path: '/strategy',  icon: Icons.Compass },
+  { label: 'Results',  path: '/results',   icon: Icons.BarChart },
 ];
 
 export function PhoneTabBar() {
@@ -49,12 +50,12 @@ export function PhoneTabBar() {
               transition: 'color 0.15s',
             }}
           >
-            <tab.icon s={22} c={active ? 'var(--accent)' : 'var(--ink4)'} />
+            <tab.icon s={20} c={active ? 'var(--accent)' : 'var(--ink4)'} />
             <span style={{
-              fontSize: 10,
+              fontSize: 9,
               fontWeight: 600,
               fontFamily: 'var(--font-mono)',
-              letterSpacing: '0.05em',
+              letterSpacing: '0.04em',
               textTransform: 'uppercase',
             }}>
               {tab.label}

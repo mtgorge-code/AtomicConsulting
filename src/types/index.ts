@@ -112,7 +112,39 @@ export interface CapturedPhoto {
   colorHint: string;
 }
 
-export type DesktopView = 'today' | 'captures' | 'plan' | 'strategy';
+export type DesktopView = 'today' | 'captures' | 'plan' | 'strategy' | 'results' | 'integrations';
+
+export type IntegrationCategory = 'analytics' | 'social' | 'crm' | 'calls' | 'booking' | 'payments';
+export type IntegrationStatus = 'connected' | 'disconnected' | 'error' | 'pending';
+
+export interface Integration {
+  id: string;
+  name: string;
+  description: string;
+  category: IntegrationCategory;
+  status: IntegrationStatus;
+  accountName?: string;
+  lastSyncedAt?: string;
+  logoColor: string;
+  logoText: string;
+}
+
+export interface PostPerformance {
+  postId: string;
+  period: string;
+  reach: number;
+  profileVisits: number;
+  websiteClicks: number;
+  callsAttributed: number;
+  formSubmissions: number;
+  bookingsAttributed: number;
+  revenueAttributed: number;
+}
+
+export interface ResultsPeriod {
+  label: string;
+  value: 'this-month' | 'last-month' | '90-days' | 'all-time';
+}
 
 export const OWNERS = {
   you:    { kind: 'you'    as OwnerKind, label: 'You',          initials: 'MR', color: 'var(--ink)' },

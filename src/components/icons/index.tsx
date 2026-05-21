@@ -115,4 +115,19 @@ export const Icons = {
       <line x1="6" y1="6" x2="18" y2="18"/>
     </Icon>
   ),
+  BarChart: (p: IconProps) => (
+    <Icon {...p}>
+      <rect x="3" y="12" width="4" height="9"/>
+      <rect x="10" y="7" width="4" height="14"/>
+      <rect x="17" y="3" width="4" height="18"/>
+    </Icon>
+  ),
+  Plug: (p: IconProps) => (
+    <Icon {...p}>
+      <path d="M12 22v-5"/>
+      <path d="M9 8V2"/>
+      <path d="M15 8V2"/>
+      <path d="M18 8H6a2 2 0 0 0-2 2v3a6 6 0 0 0 6 6h4a6 6 0 0 0 6-6v-3a2 2 0 0 0-2-2z"/>
+    </Icon>
+  ),
 };
