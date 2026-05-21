@@ -6,7 +6,7 @@ import { Button } from '../../components/ui/Button';
 import { OwnerChip } from '../../components/ui/OwnerChip';
 import { Placeholder } from '../../components/ui/Placeholder';
 import { Icons } from '../../components/icons';
-import { strategy, team } from '../../data';
+import { strategy } from '../../data';
 import { useApp } from '../../context/AppContext';
 import type { PostState, DesktopView } from '../../types';
 

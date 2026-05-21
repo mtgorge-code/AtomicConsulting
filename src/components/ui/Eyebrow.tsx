@@ -1,4 +1,4 @@
-import { CSSProperties, ElementType, ReactNode } from 'react';
+import type { CSSProperties, ElementType, ReactNode } from 'react';
 
 interface EyebrowProps {
   children: ReactNode;

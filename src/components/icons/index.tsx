@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 interface IconProps {
   s?: number;
@@ -7,7 +7,7 @@ interface IconProps {
   style?: CSSProperties;
 }
 
-function Icon({ s = 20, c = 'currentColor', title, style, children }: IconProps & { children: React.ReactNode }) {
+function Icon({ s = 20, c = 'currentColor', title, style, children }: IconProps & { children: ReactNode }) {
   return (
     <svg
       width={s}

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { PhoneShell } from '../components/layout/PhoneShell';
 import { AtomicWordmark } from '../components/ui/AtomicMark';
-import { AtomicMark } from '../components/ui/AtomicMark';
 import { Card } from '../components/ui/Card';
 import { Eyebrow } from '../components/ui/Eyebrow';
 import { OwnerChip } from '../components/ui/OwnerChip';

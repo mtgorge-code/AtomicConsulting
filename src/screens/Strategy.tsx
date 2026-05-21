@@ -4,7 +4,6 @@ import { PhoneTabBar } from '../components/layout/PhoneTabBar';
 import { Card } from '../components/ui/Card';
 import { Eyebrow } from '../components/ui/Eyebrow';
 import { OwnerChip } from '../components/ui/OwnerChip';
-import { SR } from '../components/ui/SR';
 import { strategy } from '../data';
 import { useApp } from '../context/AppContext';
 

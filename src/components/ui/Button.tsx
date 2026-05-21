@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 type ButtonKind = 'primary' | 'accent' | 'ghost' | 'soft';
 type ButtonSize = 'sm' | 'md' | 'lg';

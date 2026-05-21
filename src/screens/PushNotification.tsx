@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { AtomicMark } from '../components/ui/AtomicMark';
-import { Eyebrow } from '../components/ui/Eyebrow';
 import { SR } from '../components/ui/SR';
 
 export function PushNotification() {

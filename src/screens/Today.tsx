@@ -43,25 +43,6 @@ const dayItems = [
   },
 ];
 
-const makingItems = [
-  {
-    state: 'In design',
-    stateTone: 'ink' as const,
-    channel: 'FB · IG',
-    date: 'Wed 22',
-    title: 'Behind the scenes: how we prep for hardscape',
-    owner: 'sarah' as const,
-  },
-  {
-    state: 'Scheduled',
-    stateTone: 'good' as const,
-    channel: 'Instagram',
-    date: 'Tue 21 10am',
-    title: 'Before-and-after: Eastside patio transformation',
-    owner: 'atomic' as const,
-  },
-];
-
 export function Today() {
   const { state } = useApp();
   const posts = state.posts;

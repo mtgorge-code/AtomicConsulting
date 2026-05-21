@@ -1,4 +1,5 @@
-import { createContext, useContext, useReducer, ReactNode } from 'react';
+import { createContext, useContext, useReducer } from 'react';
+import type { ReactNode, Dispatch } from 'react';
 import type { Post, CapturedPhoto, CaptureBrief, Integration } from '../types';
 import { posts as seedPosts, capturedPhotos as seedPhotos, captureBriefs as seedBriefs, integrations as seedIntegrations } from '../data';
 
@@ -149,7 +150,7 @@ function reducer(state: AppState, action: Action): AppState {
 // ── Context ────────────────────────────────────────────────────────
 interface AppContextValue {
   state: AppState;
-  dispatch: React.Dispatch<Action>;
+  dispatch: Dispatch<Action>;
   approvePost:           (postId: string) => void;
   rejectPost:            (postId: string) => void;
   handoffCapture:        (briefId: string) => void;

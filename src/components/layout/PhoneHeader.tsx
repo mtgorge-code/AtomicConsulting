@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { AtomicWordmark } from '../ui/AtomicMark';
 import { Avatar } from '../ui/Avatar';
 import { Icons } from '../icons';

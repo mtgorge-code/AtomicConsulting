@@ -1,11 +1,11 @@
+import type { ReactElement } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Icons } from '../icons';
-import { SR } from '../ui/SR';
 
 interface Tab {
   label: string;
   path: string;
-  icon: (props: { s: number; c: string }) => React.ReactElement;
+  icon: (props: { s: number; c: string }) => ReactElement;
 }
 
 const tabs: Tab[] = [

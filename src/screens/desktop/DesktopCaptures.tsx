@@ -1,9 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Eyebrow } from '../../components/ui/Eyebrow';
-import { Card } from '../../components/ui/Card';
 import { Pill } from '../../components/ui/Pill';
 import { Button } from '../../components/ui/Button';
-import { OwnerChip } from '../../components/ui/OwnerChip';
 import { Icons } from '../../components/icons';
 import { jobs, posts } from '../../data';
 import { useApp } from '../../context/AppContext';

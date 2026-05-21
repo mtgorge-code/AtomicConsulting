@@ -1,6 +1,5 @@
-import { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import { OWNERS } from '../../types';
-import type { OwnerKind } from '../../types';
 import { AtomicMark } from './AtomicMark';
 import { Avatar } from './Avatar';
 
