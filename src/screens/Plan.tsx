@@ -7,8 +7,8 @@ import { Pill } from '../components/ui/Pill';
 import { OwnerChip } from '../components/ui/OwnerChip';
 import { Button } from '../components/ui/Button';
 import { AtomicMark } from '../components/ui/AtomicMark';
-import { posts } from '../data';
 import type { PostState } from '../types';
+import { useApp } from '../context/AppContext';
 
 const days = [
   { label: 'M', date: 19, active: false },
@@ -44,6 +44,8 @@ const postDayLabels: Record<string, string> = {
 };
 
 export function Plan() {
+  const { state, approvePost } = useApp();
+  const posts = state.posts;
   return (
     <PhoneShell>
       <a href="#main" className="skip-link">Skip to main content</a>
@@ -222,8 +224,8 @@ export function Plan() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                     <OwnerChip owner={post.owner} size="sm" />
                     {isDraft && (
-                      <Button kind="soft" size="sm" style={{ fontSize: 12.5 }}>
-                        Review draft →
+                      <Button kind="accent" size="sm" style={{ fontSize: 12.5 }} onClick={() => approvePost(post.id)}>
+                        Approve · 1 tap
                       </Button>
                     )}
                   </div>

@@ -6,7 +6,8 @@ import { Button } from '../../components/ui/Button';
 import { OwnerChip } from '../../components/ui/OwnerChip';
 import { Placeholder } from '../../components/ui/Placeholder';
 import { Icons } from '../../components/icons';
-import { posts, strategy, team } from '../../data';
+import { strategy, team } from '../../data';
+import { useApp } from '../../context/AppContext';
 import type { PostState, DesktopView } from '../../types';
 
 interface DesktopTodayProps {
@@ -48,6 +49,8 @@ function stateLabel(state: PostState) {
 }
 
 export function DesktopToday({ onNavigate }: DesktopTodayProps) {
+  const { state, approvePost, rejectPost } = useApp();
+  const posts = state.posts;
   const [calView, setCalView] = useState<CalView>('week');
   const draftPost = posts.find(p => p.state === 'draft');
 
@@ -304,8 +307,8 @@ export function DesktopToday({ onNavigate }: DesktopTodayProps) {
               <p key={i} style={{ fontSize: 13, color: 'var(--ink2)', lineHeight: 1.55, marginBottom: 8 }}>{para}</p>
             ))}
             <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-              <Button kind="accent" size="sm" style={{ flex: 1 }}>Approve · 1 tap</Button>
-              <Button kind="ghost" size="sm">Tweak</Button>
+              <Button kind="accent" size="sm" style={{ flex: 1 }} onClick={() => draftPost && approvePost(draftPost.id)}>Approve · 1 tap</Button>
+              <Button kind="ghost" size="sm" onClick={() => draftPost && rejectPost(draftPost.id)}>Tweak</Button>
             </div>
           </Card>
         </section>

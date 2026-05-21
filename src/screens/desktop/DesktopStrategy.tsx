@@ -4,7 +4,8 @@ import { OwnerChip } from '../../components/ui/OwnerChip';
 import { Button } from '../../components/ui/Button';
 import { Pill } from '../../components/ui/Pill';
 import { Icons } from '../../components/icons';
-import { strategy, capturedPhotos } from '../../data';
+import { strategy } from '../../data';
+import { useApp } from '../../context/AppContext';
 
 const weekAsksYou = [
   { eyebrow: 'Capture · 10 sec',  title: 'Snap the finished wall — wide, Riverside Ave', sub: 'After your 11am wrap' },
@@ -29,6 +30,8 @@ const bRoll = [
 ];
 
 export function DesktopStrategy() {
+  const { state, toggleBRoll } = useApp();
+  const capturedPhotos = state.photos;
   const totalCaptured = capturedPhotos.length;
   const inUse = capturedPhotos.filter(p => p.status === 'in-use').length;
 
@@ -147,19 +150,20 @@ export function DesktopStrategy() {
                   padding: '13px 16px',
                   borderBottom: i < bRoll.length - 1 ? '1px solid var(--hairline)' : 'none',
                   cursor: 'pointer',
-                  background: item.done ? 'var(--paper2)' : 'var(--card)',
+                  background: (state.bRollChecked[item.label] ?? item.done) ? 'var(--paper2)' : 'var(--card)',
                   minHeight: 48,
                 }}>
                   <input
                     type="checkbox"
-                    defaultChecked={item.done}
+                    checked={state.bRollChecked[item.label] ?? item.done}
+                    onChange={() => toggleBRoll(item.label)}
                     style={{ width: 17, height: 17, accentColor: 'var(--accent)', flexShrink: 0, cursor: 'pointer' }}
                     aria-label={item.label}
                   />
                   <span style={{
                     fontSize: 14,
-                    color: item.done ? 'var(--ink3)' : 'var(--ink)',
-                    textDecoration: item.done ? 'line-through' : 'none',
+                    color: (state.bRollChecked[item.label] ?? item.done) ? 'var(--ink3)' : 'var(--ink)',
+                    textDecoration: (state.bRollChecked[item.label] ?? item.done) ? 'line-through' : 'none',
                     textDecorationColor: 'var(--ink4)',
                     lineHeight: 1.4,
                   }}>

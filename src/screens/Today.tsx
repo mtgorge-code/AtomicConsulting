@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useApp } from '../context/AppContext';
 import { PhoneShell } from '../components/layout/PhoneShell';
 import { PhoneHeader } from '../components/layout/PhoneHeader';
 import { PhoneTabBar } from '../components/layout/PhoneTabBar';
@@ -62,6 +63,11 @@ const makingItems = [
 ];
 
 export function Today() {
+  const { state } = useApp();
+  const posts = state.posts;
+  const yourCount = posts.filter(p => p.owner === 'you' && (p.state === 'capture' || p.state === 'draft')).length;
+  const oursCount = posts.filter(p => p.owner !== 'you').length;
+  const makingItems = posts.filter(p => p.state === 'in-design' || p.state === 'scheduled').slice(0, 2);
   return (
     <PhoneShell>
       <a href="#main" className="skip-link">Skip to main content</a>
@@ -75,8 +81,8 @@ export function Today() {
 
         <section aria-label="Summary" style={{ marginBottom: 16 }}>
           <BalanceCard
-            yours={{ count: 2, detail: '2 captures on your calendar · 1 post needs 30 seconds of your eyes.' }}
-            ours={{ count: 6, detail: '4 in design, 2 scheduling themselves out this week.' }}
+            yours={{ count: yourCount, detail: `${yourCount} capture${yourCount !== 1 ? 's' : ''} on your calendar · ${posts.filter(p => p.state === 'draft' && p.owner === 'you').length > 0 ? '1 post needs 30 seconds of your eyes.' : 'nothing else needed from you.'}` }}
+            ours={{ count: oursCount, detail: `${posts.filter(p => p.state === 'in-design').length} in design, ${posts.filter(p => p.state === 'scheduled').length} scheduling themselves out this week.` }}
           />
         </section>
 
@@ -208,25 +214,25 @@ export function Today() {
             We&apos;re making
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {makingItems.map((item, i) => (
-              <Card key={i} pad={14}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 7 }}>
-                  <Pill tone={item.stateTone} size="sm">{item.state}</Pill>
-                  <span style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: 11,
-                    color: 'var(--ink4)',
-                    letterSpacing: '0.04em',
-                  }}>
-                    {item.channel} · {item.date}
-                  </span>
-                </div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)', marginBottom: 8, lineHeight: 1.3 }}>
-                  {item.title}
-                </p>
-                <OwnerChip owner={item.owner} size="sm" />
-              </Card>
-            ))}
+            {makingItems.map((post) => {
+              const stateLabel = post.state === 'in-design' ? 'In design' : 'Scheduled';
+              const stateTone = post.state === 'scheduled' ? 'good' : 'ink';
+              const date = new Date(post.scheduledAt).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+              return (
+                <Card key={post.id} pad={14}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 7 }}>
+                    <Pill tone={stateTone as 'good' | 'ink'} size="sm">{stateLabel}</Pill>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ink4)', letterSpacing: '0.04em' }}>
+                      {post.channels[0]} · {date}
+                    </span>
+                  </div>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)', marginBottom: 8, lineHeight: 1.3 }}>
+                    {post.title}
+                  </p>
+                  <OwnerChip owner={post.owner} size="sm" />
+                </Card>
+              );
+            })}
           </div>
         </section>
       </main>

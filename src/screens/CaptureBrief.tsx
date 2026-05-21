@@ -7,14 +7,15 @@ import { Pill } from '../components/ui/Pill';
 import { Button } from '../components/ui/Button';
 import { OwnerChip } from '../components/ui/OwnerChip';
 import { Icons } from '../components/icons';
-import { captureBriefs } from '../data';
-
-const brief = captureBriefs[0];
+import { useApp } from '../context/AppContext';
 
 export function CaptureBrief() {
   const navigate = useNavigate();
+  const { state, handoffCapture } = useApp();
+  const brief = state.briefs[0];
   const [activeShot, setActiveShot] = useState(0);
-  const [handedOff, setHandedOff] = useState(false);
+
+  const handedOff = brief.owner === 'crew' || brief.status === 'reassigned';
 
   return (
     <PhoneShell>
@@ -83,7 +84,7 @@ export function CaptureBrief() {
             }
             {!handedOff && (
               <button
-                onClick={() => setHandedOff(true)}
+                onClick={() => handoffCapture(brief.id)}
                 style={{
                   fontFamily: 'var(--font-sans)',
                   fontSize: 13,

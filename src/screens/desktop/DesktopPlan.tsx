@@ -6,7 +6,7 @@ import { Button } from '../../components/ui/Button';
 import { OwnerChip } from '../../components/ui/OwnerChip';
 import { AtomicMark } from '../../components/ui/AtomicMark';
 import { Icons } from '../../components/icons';
-import { posts } from '../../data';
+import { useApp } from '../../context/AppContext';
 import type { PostState } from '../../types';
 
 type CalView = 'week' | 'month' | 'pipeline';
@@ -34,7 +34,7 @@ function stateLabel(s: PostState) {
 const MONTH_DAYS = Array.from({ length: 31 }, (_, i) => i + 1);
 const MONTH_START_DOW = 4; // May 1 = Friday (0=Sun...6=Sat)
 
-function WeekGrid() {
+function WeekGrid({ posts }: { posts: import('../../types').Post[] }) {
   const weekDays = [
     { label: 'Mon', date: 19, today: false },
     { label: 'Tue', date: 20, today: true },
@@ -102,7 +102,7 @@ function WeekGrid() {
   );
 }
 
-function MonthGrid() {
+function MonthGrid({ posts }: { posts: import('../../types').Post[] }) {
   const DOW_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const cells: (number | null)[] = [
     ...Array(MONTH_START_DOW).fill(null),
@@ -153,7 +153,7 @@ function MonthGrid() {
   );
 }
 
-function PipelineView() {
+function PipelineView({ posts, onApprove }: { posts: import('../../types').Post[]; onApprove: (id: string) => void }) {
   const STATUS_ORDER: PostState[] = ['capture', 'capture-crew', 'in-design', 'review', 'draft', 'scheduled', 'posted'];
   const lanes = STATUS_ORDER.map(s => ({
     state: s,
@@ -193,8 +193,8 @@ function PipelineView() {
                   </span>
                 </div>
                 {post.state === 'draft' && (
-                  <Button kind="accent" size="sm" style={{ width: '100%', marginTop: 8, fontSize: 12 }}>
-                    Review draft →
+                  <Button kind="accent" size="sm" style={{ width: '100%', marginTop: 8, fontSize: 12 }} onClick={() => onApprove(post.id)}>
+                    Approve · 1 tap
                   </Button>
                 )}
               </div>
@@ -207,6 +207,8 @@ function PipelineView() {
 }
 
 export function DesktopPlan() {
+  const { state, approvePost } = useApp();
+  const posts = state.posts;
   const [calView, setCalView] = useState<CalView>('week');
 
   return (
@@ -277,9 +279,9 @@ export function DesktopPlan() {
           </div>
         </div>
 
-        {calView === 'week'     && <WeekGrid />}
-        {calView === 'month'    && <MonthGrid />}
-        {calView === 'pipeline' && <PipelineView />}
+        {calView === 'week'     && <WeekGrid posts={posts} />}
+        {calView === 'month'    && <MonthGrid posts={posts} />}
+        {calView === 'pipeline' && <PipelineView posts={posts} onApprove={approvePost} />}
 
         {/* Atomic content day callout */}
         {calView === 'week' && (
@@ -353,7 +355,7 @@ export function DesktopPlan() {
                     </p>
                     <OwnerChip owner={post.owner} size="sm" style={{ flexShrink: 0 }} />
                     {post.state === 'draft' && (
-                      <Button kind="accent" size="sm" style={{ flexShrink: 0, fontSize: 12 }}>Review →</Button>
+                      <Button kind="accent" size="sm" style={{ flexShrink: 0, fontSize: 12 }} onClick={() => approvePost(post.id)}>Approve →</Button>
                     )}
                   </div>
                 );

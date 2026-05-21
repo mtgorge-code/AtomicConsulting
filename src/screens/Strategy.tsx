@@ -6,6 +6,7 @@ import { Eyebrow } from '../components/ui/Eyebrow';
 import { OwnerChip } from '../components/ui/OwnerChip';
 import { SR } from '../components/ui/SR';
 import { strategy } from '../data';
+import { useApp } from '../context/AppContext';
 
 const weekAsksYou = [
   { eyebrow: 'Capture · 10 sec', title: 'Snap the finished wall — wide, Riverside Ave' },
@@ -28,6 +29,7 @@ const bRoll = [
 ];
 
 export function Strategy() {
+  const { state, toggleBRoll } = useApp();
   return (
     <PhoneShell>
       <a href="#main" className="skip-link">Skip to main content</a>
@@ -163,28 +165,35 @@ export function Strategy() {
             Snap any of these when you see them. No urgency.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-            {bRoll.map((item, i) => (
-              <label key={i} style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-                padding: '11px 0',
-                borderBottom: i < bRoll.length - 1 ? '1px solid var(--hairline)' : 'none',
-                cursor: 'pointer',
-                minHeight: 44,
-              }}>
-                <input
-                  type="checkbox"
-                  style={{
-                    width: 18,
-                    height: 18,
-                    accentColor: 'var(--accent)',
-                    flexShrink: 0,
-                  }}
-                />
-                <span style={{ fontSize: 14, color: 'var(--ink)', lineHeight: 1.4 }}>{item}</span>
-              </label>
-            ))}
+            {bRoll.map((item, i) => {
+              const checked = !!state.bRollChecked[item];
+              return (
+                <label key={i} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                  padding: '11px 0',
+                  borderBottom: i < bRoll.length - 1 ? '1px solid var(--hairline)' : 'none',
+                  cursor: 'pointer',
+                  minHeight: 44,
+                  opacity: checked ? 0.6 : 1,
+                }}>
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => toggleBRoll(item)}
+                    style={{ width: 18, height: 18, accentColor: 'var(--accent)', flexShrink: 0 }}
+                  />
+                  <span style={{
+                    fontSize: 14,
+                    color: 'var(--ink)',
+                    lineHeight: 1.4,
+                    textDecoration: checked ? 'line-through' : 'none',
+                    textDecorationColor: 'var(--ink4)',
+                  }}>{item}</span>
+                </label>
+              );
+            })}
           </div>
         </section>
       </main>

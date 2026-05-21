@@ -1,10 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SR } from '../components/ui/SR';
 import { Icons } from '../components/icons';
-import { captureBriefs } from '../data';
-
-const brief = captureBriefs[0];
+import { useApp } from '../context/AppContext';
+import type { CapturedPhoto } from '../types';
 
 const coachPrompts = [
   "Back up 2 steps. Get the lawn line into frame.",
@@ -12,8 +11,16 @@ const coachPrompts = [
   "Great angle. Make sure the whole wall top is visible.",
 ];
 
+const colorHints = [
+  'oklch(0.54 0.04 138)',
+  'oklch(0.48 0.03 80)',
+  'oklch(0.52 0.05 145)',
+];
+
 export function Shoot() {
   const navigate = useNavigate();
+  const { state, submitPhotos } = useApp();
+  const brief = state.briefs[0];
   const [activeShot, setActiveShot] = useState(0);
   const [capturedFrames, setCapturedFrames] = useState<boolean[]>(new Array(brief.shots.length).fill(false));
   const [coachIdx, setCoachIdx] = useState(0);
@@ -32,6 +39,22 @@ export function Shoot() {
     if (activeShot < totalShots - 1) {
       setTimeout(() => setActiveShot(activeShot + 1), 300);
     } else if (next.every(Boolean)) {
+      // Build submitted photos and push to global state
+      const now = new Date().toISOString();
+      const newPhotos: CapturedPhoto[] = brief.shots
+        .filter((_, i) => next[i])
+        .map((shot, i) => ({
+          id: `ph-new-${Date.now()}-${i}`,
+          jobId: brief.jobId,
+          briefId: brief.id,
+          shotLabel: shot.label,
+          capturedAt: now,
+          capturedBy: 'you' as const,
+          status: 'submitted' as const,
+          ratio: 4 / 3,
+          colorHint: colorHints[i % colorHints.length],
+        }));
+      submitPhotos(newPhotos);
       setTimeout(() => navigate('/handoff'), 400);
     }
   };

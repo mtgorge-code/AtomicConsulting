@@ -5,7 +5,8 @@ import { Pill } from '../../components/ui/Pill';
 import { Button } from '../../components/ui/Button';
 import { OwnerChip } from '../../components/ui/OwnerChip';
 import { Icons } from '../../components/icons';
-import { capturedPhotos, jobs, posts } from '../../data';
+import { jobs, posts } from '../../data';
+import { useApp } from '../../context/AppContext';
 import type { CapturedPhoto, PhotoStatus } from '../../types';
 
 type FilterStatus = 'all' | PhotoStatus;
@@ -137,7 +138,12 @@ function PhotoCard({
   );
 }
 
-function PhotoDetail({ photo, onClose }: { photo: CapturedPhoto; onClose: () => void }) {
+function PhotoDetail({ photo, onClose, onApprove, onArchive }: {
+  photo: CapturedPhoto;
+  onClose: () => void;
+  onApprove: (id: string) => void;
+  onArchive: (id: string) => void;
+}) {
   const sc = STATUS_CONFIG[photo.status];
   const job = jobs.find(j => j.id === photo.jobId);
   const usedInPost = photo.usedInPostId ? posts.find(p => p.id === photo.usedInPostId) : null;
@@ -215,8 +221,8 @@ function PhotoDetail({ photo, onClose }: { photo: CapturedPhoto; onClose: () => 
           </div>
           {(photo.status === 'submitted' || photo.status === 'in-review') && (
             <div style={{ display: 'flex', gap: 8 }}>
-              <Button kind="accent" size="sm" style={{ flex: 1 }}>Approve</Button>
-              <Button kind="ghost" size="sm">Archive</Button>
+              <Button kind="accent" size="sm" style={{ flex: 1 }} onClick={() => { onApprove(photo.id); onClose(); }}>Approve</Button>
+              <Button kind="ghost" size="sm" onClick={() => { onArchive(photo.id); onClose(); }}>Archive</Button>
             </div>
           )}
           {photo.status === 'approved' && (
@@ -288,6 +294,8 @@ function PhotoDetail({ photo, onClose }: { photo: CapturedPhoto; onClose: () => 
 }
 
 export function DesktopCaptures() {
+  const { state, approvePhoto, archivePhoto } = useApp();
+  const capturedPhotos = state.photos;
   const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
   const [filterBy, setFilterBy] = useState<FilterBy>('all');
   const [sortBy, setSortBy] = useState<SortBy>('newest');
@@ -524,6 +532,8 @@ export function DesktopCaptures() {
           <PhotoDetail
             photo={selectedPhoto}
             onClose={() => setSelectedId(null)}
+            onApprove={approvePhoto}
+            onArchive={archivePhoto}
           />
         )}
       </div>
