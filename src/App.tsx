@@ -1,3 +1,4 @@
+import React from 'react';
 import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import { Toast } from './components/ui/Toast';
@@ -10,6 +11,27 @@ import { Plan } from './screens/Plan';
 import { Strategy } from './screens/Strategy';
 import { Results } from './screens/Results';
 import { Desktop } from './screens/Desktop';
+
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { error: string | null }
+> {
+  state = { error: null };
+  static getDerivedStateFromError(e: Error) {
+    return { error: e.message + '\n\n' + e.stack };
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div style={{ padding: 32, fontFamily: 'monospace', background: '#fff', color: '#c00', whiteSpace: 'pre-wrap', fontSize: 13 }}>
+          <strong style={{ fontSize: 16 }}>App crashed — error details:</strong>
+          {'\n\n'}{this.state.error}
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 function DevNav() {
   const { pathname } = useLocation();
@@ -39,9 +61,9 @@ function DevNav() {
         const active = pathname.startsWith(s.path);
         return (
           <Link key={s.path} to={s.path} style={{
-            fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 600,
+            fontFamily: 'monospace', fontSize: 10.5, fontWeight: 600,
             letterSpacing: '0.04em',
-            color: active ? 'var(--accent)' : 'rgba(255,255,255,0.5)',
+            color: active ? '#f97316' : 'rgba(255,255,255,0.5)',
             background: active ? 'rgba(255,255,255,0.08)' : 'transparent',
             padding: '5px 10px', borderRadius: 6, textDecoration: 'none',
             textTransform: 'uppercase', whiteSpace: 'nowrap',
@@ -78,10 +100,12 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <AppProvider>
-      <HashRouter>
-        <AppRoutes />
-      </HashRouter>
-    </AppProvider>
+    <ErrorBoundary>
+      <AppProvider>
+        <HashRouter>
+          <AppRoutes />
+        </HashRouter>
+      </AppProvider>
+    </ErrorBoundary>
   );
 }
