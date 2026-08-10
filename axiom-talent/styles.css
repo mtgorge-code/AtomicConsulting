@@ -193,14 +193,16 @@ button { font-family: inherit; cursor: pointer; }
   align-items: center;
 }
 .hero h1 {
-  font-size: clamp(1.75rem, 2.9vw, 2.5rem);
-  line-height: 1.18;
-  max-width: 15ch;
+  font-size: clamp(1.5rem, 2.2vw, 2.05rem);
+  line-height: 1.22;
+  max-width: 21ch;
   color: var(--on-dark);
 }
-.hero h1 br { display: none; }
-.hero h1 .accent-line::after { content: " "; }
-.hero .accent-line { color: var(--accent); }
+.hero .accent-line {
+  display: block;
+  color: var(--accent);
+  white-space: nowrap;
+}
 .hero-sub {
   font-size: 1.05rem;
   max-width: 46ch;
