@@ -5,6 +5,7 @@
   --cream: #F2EAD9;
   --cream-deep: #E9DFC7;
   --paper: #FFFFFF;
+  --ticket: #F5F0E3;
   --ink: #1E1D24;
   --ink-soft: #5B5A52;
   --line: #DCD0B4;
@@ -215,85 +216,103 @@ button { font-family: inherit; cursor: pointer; }
 /* Boarding pass illustration */
 .boarding-pass {
   position: relative;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.55);
-  max-width: 380px;
-  margin-left: auto;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: 600px;
 }
 .bp-main {
-  padding: 1.5rem 1.35rem;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+  background: var(--ticket);
+  border-radius: 14px;
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.55);
+  padding: 1.85rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.35rem;
 }
 .bp-route {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.25rem;
 }
-.bp-place { display: flex; flex-direction: column; gap: 0.15rem; }
+.bp-place { display: flex; flex-direction: column; gap: 0.2rem; }
 .bp-place-end { text-align: right; align-items: flex-end; }
 .bp-line {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  color: var(--accent);
+  gap: 0.4rem;
+  color: var(--line);
 }
-.bp-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-.bp-dash { flex: 1; height: 1px; background: repeating-linear-gradient(90deg, var(--accent) 0 6px, transparent 6px 11px); }
-.bp-plane { font-size: 0.95rem; color: var(--accent); }
+.bp-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ink); flex-shrink: 0; }
+.bp-dash { flex: 1; height: 1px; background: repeating-linear-gradient(90deg, var(--line) 0 5px, transparent 5px 9px); }
+.bp-plane { font-size: 1rem; color: var(--accent); transform: rotate(0deg); }
 .bp-label {
   display: block;
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.62rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-soft);
+  margin-bottom: 0.3rem;
 }
 .bp-value {
   display: block;
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.15rem;
   color: var(--ink);
 }
 .bp-fields {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-  gap: 0.9rem;
-  border-top: 1px dashed var(--line);
-  padding-top: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  border-top: 1px dotted var(--line);
+  padding-top: 1.15rem;
 }
-.bp-fields .bp-value { font-size: 0.88rem; }
+.bp-fields .bp-value { font-size: 1rem; }
+.bp-fields:nth-of-type(3) { grid-template-columns: repeat(4, 1fr); }
+
 .bp-stub {
-  position: absolute;
-  top: -12px;
-  right: -10px;
-  background: var(--accent);
-  color: #fff;
-  border-radius: 20px;
-  padding: 0.4rem 0.9rem;
+  position: relative;
+  z-index: 0;
+  flex-shrink: 0;
+  width: 5.5rem;
+  margin: -0.75rem 0 -0.75rem -1rem;
+  background: var(--navy-soft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow: -8px 0 20px -10px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.1rem;
-  box-shadow: 0 8px 18px -8px rgba(200, 90, 46, 0.7);
-  transform: rotate(4deg);
-}
-.bp-stamp {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-  font-weight: 600;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1.5rem 0.5rem;
 }
 .bp-stub-code {
+  writing-mode: vertical-rl;
   font-family: var(--font-mono);
-  font-size: 0.55rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--on-dark-soft);
+}
+.bp-stamp {
+  writing-mode: horizontal-tb;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
   letter-spacing: 0.06em;
-  opacity: 0.85;
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+  border-radius: 4px;
+  padding: 0.3em 0.4em;
+  transform: rotate(-8deg);
+  white-space: nowrap;
 }
 
 /* ---------- Journey (cream) ---------- */
@@ -496,12 +515,22 @@ button { font-family: inherit; cursor: pointer; }
 .cookie-actions { display: flex; gap: 0.75rem; }
 
 /* ---------- Legal pages ---------- */
-.legal-main { padding: 3.5rem 0 5rem; background: var(--cream); }
-.legal-header { border-bottom: 1px solid var(--line); padding-bottom: 2rem; margin-bottom: 2.5rem; }
+.legal-main { padding: 4.5rem 0 5rem; background: var(--cream); }
+.legal-header {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 2.5rem;
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.legal-header .eyebrow { margin: 0; }
+.legal-header h1 { margin: 0; }
 .legal-updated {
   font-family: var(--font-mono);
   font-size: 0.78rem;
   color: var(--ink-soft);
+  margin: 0;
 }
 .legal-body h2 {
   font-size: 1.25rem;
@@ -533,9 +562,15 @@ button { font-family: inherit; cursor: pointer; }
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .hero-inner { grid-template-columns: 1fr; }
-  .boarding-pass { max-width: 480px; margin-left: 0; }
+  .boarding-pass { max-width: 520px; }
   .why-grid, .contact-grid, .story-grid, .footer-inner { grid-template-columns: 1fr; }
   .story-image { order: -1; max-width: 360px; }
+}
+
+@media (max-width: 480px) {
+  .bp-main { padding: 1.5rem 1.35rem; }
+  .bp-fields, .bp-fields:nth-of-type(3) { grid-template-columns: repeat(2, 1fr); }
+  .bp-stub { width: 4rem; }
 }
 
 @media (max-width: 720px) {
