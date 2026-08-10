@@ -394,26 +394,24 @@ button { font-family: inherit; cursor: pointer; }
   margin-top: 1.5rem;
 }
 
-/* ---------- Contact (dark) ---------- */
-.contact { padding: 5rem 0 6rem; background: var(--navy); }
+/* ---------- Contact (white) ---------- */
+.contact { padding: 5rem 0 6rem; background: var(--paper); }
 .contact-grid {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   gap: 3.5rem;
   align-items: start;
 }
-.contact h2 { color: var(--on-dark); }
-.contact .why-lead { color: var(--on-dark-soft); }
 .contact-person {
   font-family: var(--font-mono);
   font-size: 0.8rem;
   letter-spacing: 0.06em;
-  color: var(--accent);
+  color: var(--accent-dark);
   margin-bottom: 1.25rem;
 }
 .contact .hint-text {
   font-size: 0.82rem;
-  color: var(--on-dark-soft);
+  color: var(--ink-soft);
   margin-top: 0.75rem;
 }
 .contact-panel {
