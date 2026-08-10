@@ -21,7 +21,7 @@
   --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
 
   --radius: 6px;
-  --max: 1120px;
+  --max: 1200px;
 }
 
 /* ---------- Reset ---------- */
@@ -188,8 +188,8 @@ button { font-family: inherit; cursor: pointer; }
 }
 .hero-inner {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 3.5rem;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 3rem;
   align-items: center;
 }
 .hero h1 {
@@ -216,30 +216,29 @@ button { font-family: inherit; cursor: pointer; }
 /* Boarding pass illustration */
 .boarding-pass {
   position: relative;
+  width: 100%;
+  max-width: 620px;
   display: flex;
   align-items: stretch;
-  width: 100%;
-  max-width: 600px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--ticket);
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.55);
 }
 .bp-main {
-  position: relative;
-  z-index: 1;
   flex: 1;
   min-width: 0;
-  background: var(--ticket);
-  border-radius: 14px;
-  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.55);
-  padding: 1.85rem 2rem;
+  padding: 2.25rem 1.85rem;
   display: flex;
   flex-direction: column;
-  gap: 1.35rem;
+  gap: 2rem;
 }
 .bp-route {
   display: flex;
   align-items: center;
   gap: 1.25rem;
 }
-.bp-place { display: flex; flex-direction: column; gap: 0.2rem; }
+.bp-place { display: flex; flex-direction: column; gap: 0.25rem; }
 .bp-place-end { text-align: right; align-items: flex-end; }
 .bp-line {
   flex: 1;
@@ -250,68 +249,63 @@ button { font-family: inherit; cursor: pointer; }
 }
 .bp-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ink); flex-shrink: 0; }
 .bp-dash { flex: 1; height: 1px; background: repeating-linear-gradient(90deg, var(--line) 0 5px, transparent 5px 9px); }
-.bp-plane { font-size: 1rem; color: var(--accent); transform: rotate(0deg); }
+.bp-plane { font-size: 1.1rem; color: var(--accent); }
 .bp-label {
   display: block;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.35rem;
 }
 .bp-value {
   display: block;
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 1.15rem;
+  font-size: 1.3rem;
   color: var(--ink);
 }
 .bp-fields {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: 0.85rem;
   border-top: 1px dotted var(--line);
-  padding-top: 1.15rem;
+  padding-top: 1.5rem;
 }
-.bp-fields .bp-value { font-size: 1rem; }
+.bp-fields .bp-value { font-size: 1.05rem; white-space: nowrap; }
 .bp-fields:nth-of-type(3) { grid-template-columns: repeat(4, 1fr); }
 
 .bp-stub {
-  position: relative;
-  z-index: 0;
   flex-shrink: 0;
-  width: 5.5rem;
-  margin: -0.75rem 0 -0.75rem -1rem;
-  background: var(--navy-soft);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  box-shadow: -8px 0 20px -10px rgba(0, 0, 0, 0.5);
+  width: 7.5rem;
+  background: var(--navy);
+  border-left: 2px dashed rgba(30, 29, 36, 0.25);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1.75rem;
   padding: 1.5rem 0.5rem;
 }
 .bp-stub-code {
   writing-mode: vertical-rl;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
   color: var(--on-dark-soft);
 }
 .bp-stamp {
   writing-mode: horizontal-tb;
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   color: var(--accent);
   border: 1.5px solid var(--accent);
   border-radius: 4px;
-  padding: 0.3em 0.4em;
-  transform: rotate(-8deg);
+  padding: 0.35em 0.5em;
+  transform: rotate(-12deg);
   white-space: nowrap;
 }
 
@@ -349,7 +343,8 @@ button { font-family: inherit; cursor: pointer; }
   align-items: start;
 }
 .why h2 { font-size: clamp(1.5rem, 2.4vw, 2rem); max-width: 22ch; color: var(--on-dark); }
-.why-lead { font-size: 1.02rem; max-width: 48ch; color: var(--on-dark-soft); }
+.why-lead { font-size: 1.02rem; max-width: 48ch; color: var(--ink-soft); }
+.why .why-lead { color: var(--on-dark-soft); }
 .why-stats {
   display: flex;
   flex-direction: column;
